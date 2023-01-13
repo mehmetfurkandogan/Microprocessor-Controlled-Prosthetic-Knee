@@ -1,0 +1,3 @@
+function x = heel_x(time)
+    x = +1.780*cos(-7*2*pi*time+1.634)+2.397*cos(-6*2*pi*time+1.379)+1.770*cos(-5*2*pi*time+1.711)+8.486*cos(-4*2*pi*time+1.694)+10.447*cos(-3*2*pi*time+0.708)+23.534*cos(-2*2*pi*time+-2.594)+166.220*cos(-1*2*pi*time+2.512)+18.185*cos(0*2*pi*time+3.142)+166.220*cos(1*2*pi*time+-2.512)+23.534*cos(2*2*pi*time+2.594)+10.447*cos(3*2*pi*time+-0.708)+8.486*cos(4*2*pi*time+-1.694)+1.770*cos(5*2*pi*time+-1.711)+2.397*cos(6*2*pi*time+-1.379)+1.780*cos(7*2*pi*time+-1.634)+1411.844*time+305.161;
+end

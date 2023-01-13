@@ -1,0 +1,3 @@
+function y = ankle_y(time)
+    y = +0.281*cos(-7*2*pi*time+3.056)+0.386*cos(-6*2*pi*time+0.378)+0.958*cos(-5*2*pi*time+-2.670)+2.870*cos(-4*2*pi*time+2.118)+6.984*cos(-3*2*pi*time+0.980)+13.310*cos(-2*2*pi*time+0.665)+30.117*cos(-1*2*pi*time+0.373)+136.734*cos(0*2*pi*time+0.000)+30.117*cos(1*2*pi*time+-0.373)+13.310*cos(2*2*pi*time+-0.665)+6.984*cos(3*2*pi*time+-0.980)+2.870*cos(4*2*pi*time+-2.118)+0.958*cos(5*2*pi*time+2.670)+0.386*cos(6*2*pi*time+-0.378)+0.281*cos(7*2*pi*time+-3.056);
+end

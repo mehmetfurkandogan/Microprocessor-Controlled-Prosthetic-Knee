@@ -1,0 +1,3 @@
+function y = metat_y(time)
+    y = +0.307*cos(-7*2*pi*time+2.942)+0.942*cos(-6*2*pi*time+1.019)+0.732*cos(-5*2*pi*time+-2.199)+6.218*cos(-4*2*pi*time+2.029)+10.476*cos(-3*2*pi*time+0.690)+3.813*cos(-2*2*pi*time+-0.012)+16.465*cos(-1*2*pi*time+1.095)+62.353*cos(0*2*pi*time+0.000)+16.465*cos(1*2*pi*time+-1.095)+3.813*cos(2*2*pi*time+0.012)+10.476*cos(3*2*pi*time+-0.690)+6.218*cos(4*2*pi*time+-2.029)+0.732*cos(5*2*pi*time+2.199)+0.942*cos(6*2*pi*time+-1.019)+0.307*cos(7*2*pi*time+-2.942);
+end
