@@ -51,10 +51,10 @@ plot(time,theta_f*180/pi,'k-','linewidth',1);
 tspan = [0 4]; % s
 y0 = [-theta_0 0]; % rad
 [t,y] = ode45(@eom,tspan,y0);
-% plot(t,y(:,1)*180/pi,'g-','linewidth',2);
+plot(t,y(:,1)*180/pi,'g-','linewidth',2);
 
-plot(time(max),theta_f(max)*180/pi,'bo','MarkerFaceColor','blue');
-plot(time(min),theta_f(min)*180/pi,'ro','MarkerFaceColor','red');
+% plot(time(max),theta_f(max)*180/pi,'bo','MarkerFaceColor','blue');
+% plot(time(min),theta_f(min)*180/pi,'ro','MarkerFaceColor','red');
 xlim([0 4]);
 ylim([-40 40]);
 plot(time,exp(-delta*time)*180/pi*3/4,'k--');
@@ -62,3 +62,41 @@ plot(time,-exp(-delta*time)*180/pi*3/4,'k--');
 
 legend('Raw Data','Filtered','Maxima','Minima','location','best');
 xlabel('Time (s)');ylabel('Angle (\circ)');
+
+%% Animation
+% Knee to Ankle lenght is 42.5 cm
+L = 425;    % m
+knee = [0,0];
+ankle = L * exp(1i*theta_f);
+ankle_x = real(ankle);
+ankle_y = imag(ankle);
+ankle = knee - [ankle_x ankle_y];
+clear ankle_x;clear ankle_y;
+
+ankle0 = L * exp(1i*y(:,1));
+ankle_x = real(ankle0);
+ankle_y = imag(ankle0);
+ankle0 = knee - [ankle_x ankle_y];
+% clear ankle_x;clear ankle_y;
+
+
+%% Plotting
+figure('name','Inertia Measurement','numberTitle','off');
+hold on;
+set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
+xlim([0 10000]);ylim([0 1200]);
+
+xmin=-300;xmax = 300;
+ymin=-500;ymax = 100;
+xlim([xmin xmax]);ylim([ymin ymax]);
+
+for i = 1:size(t,1)
+    clf
+    set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
+    xlim([xmin xmax]);ylim([ymin ymax]);
+    grid on;
+    hold on;
+    plot([knee(1) ankle0(i,2)],[knee(2) ankle0(i,1)],'k-o','linewidth',1.5);
+%     plot([knee(1) ankle0(i,2)],[knee(2) ankle0(i,1)]);
+    drawnow;
+end

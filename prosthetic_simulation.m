@@ -57,7 +57,7 @@ xlim([xmin xmax]);ylim([ymin ymax]);
 color_r = [102,194,165]/255;
 color_l = [252,141,98]/255;
 
-for i = [size(tr,1),size(tr,2)]
+for i = 1:size(tr,2)
     % RIGHT
     HAT1_2_xr = [rib_xr(i),hip_xr(i)];
     HAT1_2_yr = [rib_yr(i),hip_yr(i)];
@@ -82,8 +82,8 @@ for i = [size(tr,1),size(tr,2)]
     Foot2_xl = [metat_xl(i)+deltax,toe_xl(i)+deltax];
     Foot2_yl = [metat_yl(i),toe_yl(i)];
 
-%     clf
-%     set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
+    clf
+    set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
     xlim([xmin xmax]);ylim([ymin ymax]);
     grid on;
     hold on;
@@ -93,8 +93,8 @@ for i = [size(tr,1),size(tr,2)]
     % Right Knee
     plot(knee_xr(i),knee_yr(i),'o','Color',color_r,'MarkerFaceColor',color_r);
     % Right Fibula and Foot
-    plot(Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,...
-        'linewidth',1.5,'Color',color_r);
+%     plot(Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,...
+%         'linewidth',1.5,'Color',color_r);
     
     % Left Leg
     plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,...
