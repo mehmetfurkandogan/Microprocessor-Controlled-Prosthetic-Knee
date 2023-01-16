@@ -46,16 +46,20 @@ metat_yl = metat_y(tl);
 toe_xl = toe_x(tl);
 toe_yl = toe_y(tl);
 cd("..");
+disp(min(metat_yr));
+disp(min(toe_yl));
 %% PLOTTING
 f = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
 xmin=-100;xmax = 2200;
-ymin=0;ymax = 1200;
+ymin=0;ymax = 1400;
 xlim([xmin xmax]);ylim([ymin ymax]);
 
-color_r = [102,194,165]/255;
-color_l = [252,141,98]/255;
+color_r = [31,120,180]/255;
+color_rf = [166,206,227]/255;
+color_l = [51,160,44]/255;
+color_lf = [178,223,138]/255;
 
 for i = 1:size(tr,2)
     % RIGHT
@@ -88,19 +92,25 @@ for i = 1:size(tr,2)
     grid on;
     hold on;
     % Right Leg
-    plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,...
+    rl = plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,...
         'linewidth',1.5,'Color',color_r);
     % Right Knee
-    plot(knee_xr(i),knee_yr(i),'o','Color',color_r,'MarkerFaceColor',color_r);
+    rk = plot(knee_xr(i),knee_yr(i),'o','Color',color_r,'MarkerFaceColor',color_r);
     % Right Fibula and Foot
-%     plot(Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,...
-%         'linewidth',1.5,'Color',color_r);
+    rf = plot(Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,...
+        'linewidth',1.5,'Color',color_rf);
     
     % Left Leg
-    plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,...
+    ll = plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,...
         Foot_yl,Foot2_xl,Foot2_yl,'linewidth',1.5,'Color',color_l);
     
-    % legend
+    % Ground
+    ground = 30;
+    % g = plot([xmin xmax],[30 30],'k-','linewidth',1.5);
+    g = area([xmin xmax],[30 30],'FaceColor',[253,191,111]/255);
+
+    % legend([rl(1) ll(1)],{'right','left'});
+    xlabel('x (mm)');ylabel('y (mm)');
     
     
     drawnow
