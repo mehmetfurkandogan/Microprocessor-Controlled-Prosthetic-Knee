@@ -1,5 +1,5 @@
 function fourier_series_function(a,not,filename)
-    fileID = fopen(filename,'w');
+    fileID = fopen(filename,'a');
     % Reassembling the function using Fourier series coefficients
     k = -1*floor(not/2):not-floor(not/2)-1;
     for ki = 1:not

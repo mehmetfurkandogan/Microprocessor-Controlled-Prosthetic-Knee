@@ -3,7 +3,8 @@
 % 14.01.2023
 clc;clear;close all;
 %% LOADING DATA
-load('gait_cycle_data.mat','T');
+load('gait_cycle_data.mat','T','leg_omega');
+addpath('Fits')  
 %% CALCULATIONS
 tinc = 0.01; % time increment
 N = 1;  % Number of steps
@@ -46,9 +47,47 @@ metat_yl = metat_y(tl);
 toe_xl = toe_x(tl);
 toe_yl = toe_y(tl);
 cd("..");
-disp(min(metat_yr));
-disp(min(toe_yl));
+%% SOLVING OEM
+% Initial Conditions
+theta0 = 90-leg_theta(0);   % deg
+theta0 = theta0*pi/180;     % rad
+omega0 = -leg_omega(1);      % rad/s
+
+
+
+tspan = [0 1]; % s (time span)
+y0 = [theta0 omega0]; % rad
+sol = ode45(@eom,tspan,y0);
+
+theta_s = deval(sol,tr);
+theta_s = theta_s(1,:).';
+
+%% Calculating Position
+% Knee to Ankle lenght is 42.5 cm
+L = 425;    % m
+
+knee = [knee_xr.' knee_yr.'];
+
+ankle_s = L * exp(1i*theta_s);
+ankle_x = imag(ankle_s);
+ankle_y = real(ankle_s);
+ankle_s = knee - [ankle_x ankle_y];
+clear ankle_x;clear ankle_y;
+
+% Healhy Movement
+theta_h = leg_theta(tr);    % deg
+theta_h = 90- theta_h;
+theta_h = theta_h*pi/180;   % rad
+
+
 %% PLOTTING
+figure();hold on;grid on;
+plot(tr,theta_h*180/pi,'k-','DisplayName','Healthy');
+plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
+legend;
+xlim([0 T]);
+xlabel('t (s)');ylabel('\theta_{leg} (\circ)');
+%% ANIMATION
 f = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
@@ -60,6 +99,7 @@ color_r = [31,120,180]/255;
 color_rf = [166,206,227]/255;
 color_l = [51,160,44]/255;
 color_lf = [178,223,138]/255;
+color_p = [106,61,154]/255;
 
 for i = 1:size(tr,2)
     % RIGHT
@@ -103,16 +143,28 @@ for i = 1:size(tr,2)
     % Left Leg
     ll = plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,...
         Foot_yl,Foot2_xl,Foot2_yl,'linewidth',1.5,'Color',color_l);
+
+    % Prosthesis
+    
+    p = plot([knee(i,1) ankle_s(i,1)],[knee(i,2) ankle_s(i,2)],'-o',...
+        'LineWidth',1.5,'Color',color_p);
     
     % Ground
     ground = 30;
     % g = plot([xmin xmax],[30 30],'k-','linewidth',1.5);
     g = area([xmin xmax],[30 30],'FaceColor',[253,191,111]/255);
 
-    % legend([rl(1) ll(1)],{'right','left'});
+    legend([rl(1) ll(1) p(1)],{'right leg','left leg','prosthesis'});
     xlabel('x (mm)');ylabel('y (mm)');
+    title(strcat('t = ',num2str(tr(i)),' s'));
     
-    
-    drawnow
+    figure(f);
+    % drawnow
+    movieVector(i) = getframe(f,[10 10 520 400]);
 end
-% movie(F2,1,1/tinc);
+% movie(movieVector,1,1/tinc);
+myWriter = VideoWriter('Animations\prosthesis','MPEG-4');   %create an .mp4 file
+myWriter.FrameRate = 1/tinc;
+open(myWriter);
+writeVideo(myWriter, movieVector);
+close(myWriter);

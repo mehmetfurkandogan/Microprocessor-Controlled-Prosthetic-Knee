@@ -1,4 +1,4 @@
-function [x_f,p] = fit_x (x,t,not,filename)
+function [x_f,p] = fit_x (x,t,not,file_name)
     % Fourier series fit for x coordinates
     % not is the number of terms
     %% Linear regression to obtain a periodic function
@@ -12,9 +12,20 @@ function [x_f,p] = fit_x (x,t,not,filename)
     t_ex = t;
     Ff = fourier_series_synthesis(a,t_ex,not);
     x_f = real(Ff) + (p(1)*t_ex.'+p(2));
-    filename = strcat('Fits\',filename);
+    filename = strcat('Fits\',file_name,'.txt');
     fourier_series_function(a,not,filename);
     fileID = fopen(filename,'a');
     fprintf(fileID,'+%.3f*time+%.3f',p(1),p(2));
+    fclose(fileID);
+    % Matlab Function
+    filename = strcat('Fits\',file_name,'.m');
+    fileID = fopen(filename,'w');
+    fprintf(fileID,'function x = ');
+    fprintf(fileID,file_name);
+    fprintf(fileID,'(time)\n\tx = ');
+    fclose(fileID);
+    fourier_series_function(a,not,filename);
+    fileID = fopen(filename,'a');
+    fprintf(fileID,';\nend');
     fclose(fileID);
 end

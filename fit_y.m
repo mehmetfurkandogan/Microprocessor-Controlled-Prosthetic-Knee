@@ -1,4 +1,4 @@
-function y_f = fit_y(y,t,not,filename)
+function y_f = fit_y(y,t,not,file_name)
     % Fourier series fit for y coordinates
     % not is the number of terms
     lf = 70;
@@ -9,6 +9,18 @@ function y_f = fit_y(y,t,not,filename)
     t_ex = t;
     Ff = fourier_series_synthesis(a,t_ex,not);
     y_f = real(Ff);
-    filename = strcat('Fits\',filename);
+    % Writing to a file
+    filename = strcat('Fits\',file_name,'.txt');
     fourier_series_function(a,not,filename);
+    % Matlab Function
+    filename = strcat('Fits\',file_name,'.m');
+    fileID = fopen(filename,'w');
+    fprintf(fileID,'function y = ');
+    fprintf(fileID,file_name);
+    fprintf(fileID,'(time)\n\ty = ');
+    fclose(fileID);
+    fourier_series_function(a,not,filename);
+    fileID = fopen(filename,'a');
+    fprintf(fileID,';\nend');
+    fclose(fileID);
 end

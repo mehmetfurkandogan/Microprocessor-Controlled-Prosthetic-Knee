@@ -1,0 +1,3 @@
+function y = foot_theta(time)
+	y = +0.072*cos(-7*2*pi*time+2.450)+0.172*cos(-6*2*pi*time+1.756)+0.499*cos(-5*2*pi*time+-1.774)+1.648*cos(-4*2*pi*time+2.884)+1.376*cos(-3*2*pi*time+-1.669)+9.855*cos(-2*2*pi*time+-2.465)+16.653*cos(-1*2*pi*time+3.074)+134.975*cos(0*2*pi*time+0.000)+16.653*cos(1*2*pi*time+-3.074)+9.855*cos(2*2*pi*time+2.465)+1.376*cos(3*2*pi*time+1.669)+1.648*cos(4*2*pi*time+-2.884)+0.499*cos(5*2*pi*time+1.774)+0.172*cos(6*2*pi*time+-1.756)+0.072*cos(7*2*pi*time+-2.450);
+end

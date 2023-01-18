@@ -1,0 +1,3 @@
+function y = knee_ay(time)
+	y = +0.445*cos(-7*2*pi*time+0.788)+0.232*cos(-6*2*pi*time+2.704)+0.369*cos(-5*2*pi*time+-0.518)+0.939*cos(-4*2*pi*time+1.535)+2.294*cos(-3*2*pi*time+0.708)+1.415*cos(-2*2*pi*time+-0.376)+0.344*cos(-1*2*pi*time+-0.560)+0.067*cos(0*2*pi*time+0.000)+0.344*cos(1*2*pi*time+0.560)+1.415*cos(2*2*pi*time+0.376)+2.294*cos(3*2*pi*time+-0.708)+0.939*cos(4*2*pi*time+-1.535)+0.369*cos(5*2*pi*time+0.518)+0.232*cos(6*2*pi*time+-2.704)+0.445*cos(7*2*pi*time+-0.788);
+end

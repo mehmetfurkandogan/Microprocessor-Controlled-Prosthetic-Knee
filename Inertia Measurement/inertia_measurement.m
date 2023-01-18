@@ -99,6 +99,7 @@ ymin=-500;ymax = 100;
 xlim([xmin xmax]);ylim([ymin ymax]);
 
 for i = 1:361
+    figure(f2);
     clf
     set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
     xlim([xmin xmax]);ylim([ymin ymax]);
@@ -109,6 +110,8 @@ for i = 1:361
     plot([knee(1) ankle_s(i,2)],[knee(2) ankle_s(i,1)],'g-o','LineWidth',1.5);
 
     title(strcat('t = ',num2str(time(i)),' s'));
-    drawnow;
+    F(i) = getframe;
     clc;fprintf('t = %.3f s\n',time(i));
 end
+fps = size(time,1)/4;
+movie(F,1,fps);
