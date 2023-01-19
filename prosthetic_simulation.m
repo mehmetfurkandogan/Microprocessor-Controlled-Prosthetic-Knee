@@ -154,17 +154,17 @@ for i = 1:size(tr,2)
     % g = plot([xmin xmax],[30 30],'k-','linewidth',1.5);
     g = area([xmin xmax],[30 30],'FaceColor',[253,191,111]/255);
 
-    legend([rl(1) ll(1) p(1)],{'right leg','left leg','prosthesis'});
+%     legend([rl(1) ll(1) p(1)],{'right leg','left leg','prosthesis'});
     xlabel('x (mm)');ylabel('y (mm)');
     title(strcat('t = ',num2str(tr(i)),' s'));
     
     figure(f);
     % drawnow
-    movieVector(i) = getframe(f,[10 10 520 400]);
+    % movieVector(i) = getframe(f,[10 10 520 400]);
 end
 % movie(movieVector,1,1/tinc);
-myWriter = VideoWriter('Animations\prosthesis','MPEG-4');   %create an .mp4 file
-myWriter.FrameRate = 1/tinc;
-open(myWriter);
-writeVideo(myWriter, movieVector);
-close(myWriter);
+% myWriter = VideoWriter('Animations\prosthesis','MPEG-4');   %create an .mp4 file
+% myWriter.FrameRate = 1/tinc;
+% open(myWriter);
+% writeVideo(myWriter, movieVector);
+% close(myWriter);
