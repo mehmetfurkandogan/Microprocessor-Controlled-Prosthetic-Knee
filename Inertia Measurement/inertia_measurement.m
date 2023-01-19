@@ -10,8 +10,8 @@ theta = theta .* pi ./ 180; % rad (deg to rad conversion)
 time = data(:,2);   % ms
 time = time .* 1e-3;    % s (ms to s conversion)
 %time = time - time(1);  % s (set initial time to 0)
-time = time(248:700);   % s  (clip a section from data)
-theta = theta(248:700); % rad (clip a section from data)
+time = time(250:700);   % s  (clip a section from data)
+theta = theta(250:700); % rad (clip a section from data)
 time = time - time(1);  % s (set initial time to 0)
 
 % Lowpass Filter
