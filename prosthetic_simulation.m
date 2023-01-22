@@ -6,7 +6,7 @@ clc;clear;close all;
 load('gait_cycle_data.mat','T');
 addpath('Fits')  
 %% CALCULATIONS
-Ti = 0;             % s
+Ti = 0.33;             % s
 tinc = 0.01; % time increment
 N = 1;  % Number of steps
 tr = Ti:tinc:Ti+N*T;            % time for right leg (actual time)
@@ -147,13 +147,13 @@ figure();hold on;grid on;
 plot(tr,theta_h*180/pi,'k-','DisplayName','Healthy');
 plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
 legend;
-xlim([0 T]);
+xlim([Ti T+Ti]);
 xlabel('t (s)');ylabel('\theta_{leg} (\circ)');
 %% ANIMATION
 f = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-xmin=-100;xmax = 2200*N;
+xmin=1411.844*Ti-100 ;xmax = 1411.844*(T*N + Ti) + 900;
 ymin=0;ymax = 1400;
 xlim([xmin xmax]);ylim([ymin ymax]);
 

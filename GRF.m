@@ -6,7 +6,7 @@ function GRF = GRF(heel_dist, toe_dist, heel_vx, toe_vx )
     k_toe = k_toe*1;
     k_heel = k_heel*1;
     %c = 1000; % çok
-    mu = 1/6;
+    mu = 0.1;
 
     % fprintf('%.3f\t%.3f\t%.3f\t%.3f\t',heel_dist, toe_dist, heel_vx, toe_vx);
 
