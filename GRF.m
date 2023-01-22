@@ -17,10 +17,10 @@ function GRF = GRF(heel_dist, toe_dist, heel_vx, toe_vx )
                 heel_vx * c, toe_vx * c];
 
         elseif (heel_dist > 0)  % only heel contact
-            GRF = [heel_dist*k_heel, 0 , heel_vx * c, 0];
+            GRF = [heel_dist*k_heel, 0 , -heel_vx * c, 0];
 
         elseif (toe_dist > 0)   % only toe contact
-            GRF = [0, toe_dist*k_toe, 0, toe_vx * c];
+            GRF = [0, toe_dist*k_toe, 0, -toe_vx * c];
 
         end
     end
