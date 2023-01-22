@@ -3,13 +3,14 @@
 % 14.01.2023
 clc;clear;close all;
 %% LOADING DATA
-load('gait_cycle_data.mat','T','leg_omega');
+load('gait_cycle_data.mat','T');
 addpath('Fits')  
 %% CALCULATIONS
+Ti = 0;             % s
 tinc = 0.01; % time increment
 N = 1;  % Number of steps
-tr = 0:tinc:N*T;            % time for right leg (actual time)
-tl = -T/2:tinc:N*T-T/2;     % time for left leg 
+tr = Ti:tinc:Ti+N*T;            % time for right leg (actual time)
+tl = Ti-T/2:tinc:Ti+N*T-T/2;     % time for left leg 
 % tl is defined to add phase difference between legs (90 degrees)
 % Right Leg
 cd("Position Functions\");
@@ -49,13 +50,13 @@ toe_yl = toe_y(tl);
 cd("..");
 %% SOLVING OEM
 % Initial Conditions
-theta0 = 90-leg_theta(0);   % deg
+theta0 = 90-leg_theta(Ti);   % deg
 theta0 = theta0*pi/180;     % rad
-omega0 = -leg_omega(1);      % rad/s
+omega0 = -leg_omega(Ti);      % rad/s
 
 
 
-tspan = [0 1]; % s (time span)
+tspan = [Ti Ti+T*N]; % s (time span)
 y0 = [theta0 omega0]; % rad
 sol = ode45(@eom,tspan,y0);
 
@@ -152,7 +153,7 @@ xlabel('t (s)');ylabel('\theta_{leg} (\circ)');
 f = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-xmin=-100;xmax = 2200;
+xmin=-100;xmax = 2200*N;
 ymin=0;ymax = 1400;
 xlim([xmin xmax]);ylim([ymin ymax]);
 
@@ -163,7 +164,7 @@ color_lf = [178,223,138]/255;
 color_p = [106,61,154]/255;
 color_piston = [202,178,214]/255;
 
-for i = 1:size(tr,2)
+for i = size(tr,2):size(tr,2)
     % RIGHT
     HAT1_2_xr = [rib_xr(i),hip_xr(i)];
     HAT1_2_yr = [rib_yr(i),hip_yr(i)];
@@ -240,7 +241,7 @@ for i = 1:size(tr,2)
     
     figure(f);
     % drawnow
-    % movieVector(i) = getframe(f,[10 10 520 400]);
+%     movieVector(i) = getframe(f,[10 10 520 400]);
 end
 % movie(movieVector,1,1/tinc);
 % myWriter = VideoWriter('Animations\prosthesis','MPEG-4');   %create an .mp4 file

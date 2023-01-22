@@ -6,11 +6,11 @@ function dydt = eom(t,y)
     I = T^2/(4*pi^2) *m*g*Lcm;
     % I = 0.0110947;  % kg*m^2
     c = 0.0020;     % N*s/m
-    k_c = 2.4;    % N*m
-    k_n = 0.015;  % m
+    k_c = 0.1419;    % N*m
+    k_n = 8.8688e-04;  % m
     
     dydt = [y(2); (-c/I)*y(2)...
         - (m*g*Lcm/I) * sin(y(1))...
-        - k_c*sign(y(2))...
-        - k_n*sign(y(2))*m*(g*cos(y(1))+ (y(2)^2)*Lcm)];
+        - (k_c/I)*sign(y(2))...
+        - (k_n/I)*sign(y(2))*m*(g*cos(y(1))+(y(2)^2)*Lcm)];
 end
