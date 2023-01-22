@@ -47,6 +47,9 @@ ankle_theta_f = fit_y(ankle_theta,t,15,'ankle_theta'); % degree
 F_foot_ground_x_f = fit_y(F_foot_ground_x,t,17,'F_foot_ground_x');  % N
 F_foot_ground_y_f = fit_y(F_foot_ground_y,t,17,'F_foot_ground_y');  % N
 
+%% Angular Velocities
+leg_omega_f = fit_y(leg_omega,t,10,'leg_omega');     % N
+
 %% PLOT
 % %% RIB X
 % figure('name','Rib x coordinate','numbertitle','off');hold on;grid on;
@@ -80,18 +83,18 @@ F_foot_ground_y_f = fit_y(F_foot_ground_y,t,17,'F_foot_ground_y');  % N
 % plot(t,knee_yr/100,t,knee_y,t,knee_y_f,'linewidth',1.5);
 % xlabel('t (s)');ylabel('knee y (mm)');
 % legend('raw','filtered','Fourier series fit','location','best');
-
-%% KNEE X
-figure('name','Knee x acceleration','numbertitle','off');hold on;grid on;
-plot(t,knee_ax,t,knee_ax_f,'linewidth',1.5);
-xlabel('t (s)');ylabel('knee a_x (m/s^2)');
-legend('Filtered','Fourier series fit','location','best');
-%% KNEE Y
-figure('name','Knee y acceleration','numbertitle','off');hold on;grid on;
-plot(t,knee_ay,t,knee_ay_f,'linewidth',1.5);
-xlabel('t (s)');ylabel('knee a_y (m/s^2)');
-legend('filtered','Fourier series fit','location','best');
- 
+% 
+% %% KNEE X
+% figure('name','Knee x acceleration','numbertitle','off');hold on;grid on;
+% plot(t,knee_ax,t,knee_ax_f,'linewidth',1.5);
+% xlabel('t (s)');ylabel('knee a_x (m/s^2)');
+% legend('Filtered','Fourier series fit','location','best');
+% %% KNEE Y
+% figure('name','Knee y acceleration','numbertitle','off');hold on;grid on;
+% plot(t,knee_ay,t,knee_ay_f,'linewidth',1.5);
+% xlabel('t (s)');ylabel('knee a_y (m/s^2)');
+% legend('filtered','Fourier series fit','location','best');
+%  
 % %% FIBULA X
 % figure('name','Fibula x coordinate','numbertitle','off');hold on;grid on;
 % plot(t,fibula_x,t,fibula_x_f,'linewidth',1.5);
@@ -208,3 +211,8 @@ legend('filtered','Fourier series fit','location','best');
 % plot(t,M_foot_ankle,'linewidth',1.5);
 % xlabel('t (s)');ylabel('Ankle Moment (N*m)');
 % legend('filtered','location','best');
+%% ANGULAR VELOCITIES
+figure('name','Leg Angular Velocity','numbertitle','off');hold on;grid on;
+plot(t,leg_omega,t,leg_omega_f,'linewidth',1.5);
+xlabel('t (s)');ylabel('leg_omega (rad/s)');
+legend('filtered','Fourier series fit','location','best');

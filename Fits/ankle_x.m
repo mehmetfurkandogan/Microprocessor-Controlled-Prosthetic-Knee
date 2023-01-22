@@ -1,3 +1,3 @@
 function x = ankle_x(time)
-	x = +1.633*cos(-7*2*pi*time+1.638)+1.786*cos(-6*2*pi*time+1.434)+1.894*cos(-5*2*pi*time+1.907)+6.186*cos(-4*2*pi*time+1.622)+6.589*cos(-3*2*pi*time+0.943)+19.909*cos(-2*2*pi*time+-2.767)+159.177*cos(-1*2*pi*time+2.515)+17.723*cos(0*2*pi*time+3.142)+159.177*cos(1*2*pi*time+-2.515)+19.909*cos(2*2*pi*time+2.767)+6.589*cos(3*2*pi*time+-0.943)+6.186*cos(4*2*pi*time+-1.622)+1.894*cos(5*2*pi*time+-1.907)+1.786*cos(6*2*pi*time+-1.434)+1.633*cos(7*2*pi*time+-1.638);
+	x = +1.633*cos(-7*2*pi*time+1.638)+1.786*cos(-6*2*pi*time+1.434)+1.894*cos(-5*2*pi*time+1.907)+6.186*cos(-4*2*pi*time+1.622)+6.589*cos(-3*2*pi*time+0.943)+19.909*cos(-2*2*pi*time+-2.767)+159.177*cos(-1*2*pi*time+2.515)+17.723*cos(0*2*pi*time+3.142)+159.177*cos(1*2*pi*time+-2.515)+19.909*cos(2*2*pi*time+2.767)+6.589*cos(3*2*pi*time+-0.943)+6.186*cos(4*2*pi*time+-1.622)+1.894*cos(5*2*pi*time+-1.907)+1.786*cos(6*2*pi*time+-1.434)+1.633*cos(7*2*pi*time+-1.638)+1494.340*time+363.283;
 end

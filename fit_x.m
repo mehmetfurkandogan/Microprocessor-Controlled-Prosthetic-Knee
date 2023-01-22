@@ -26,6 +26,7 @@ function [x_f,p] = fit_x (x,t,not,file_name)
     fclose(fileID);
     fourier_series_function(a,not,filename);
     fileID = fopen(filename,'a');
+    fprintf(fileID,'+%.3f*time+%.3f',p(1),p(2));
     fprintf(fileID,';\nend');
     fclose(fileID);
 end
