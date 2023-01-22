@@ -164,7 +164,7 @@ color_lf = [178,223,138]/255;
 color_p = [106,61,154]/255;
 color_piston = [202,178,214]/255;
 
-for i = size(tr,2):size(tr,2)
+for i = 1:size(tr,2)
     % RIGHT
     HAT1_2_xr = [rib_xr(i),hip_xr(i)];
     HAT1_2_yr = [rib_yr(i),hip_yr(i)];
