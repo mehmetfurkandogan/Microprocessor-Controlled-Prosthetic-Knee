@@ -1,23 +1,77 @@
 function dydt = eom(t,y)
     g = 9.8067;     % m/s^2
-    m = 0.580;  % kg
-    Lcm = 100*1e-3;  % m
-    T = 0.925;      % s
+    m = 0.904;  % kg
+    Lcm = 340*1e-3;  % m
+    T = 0.88;      % s
     I = T^2/(4*pi^2) *m*g*Lcm;
     % I = 0.0110947;  % kg*m^2
-    c = 0.0181;     % N*s/m
-    k = 1000;        % N*m
-    time = t;
-    ax = +0.454*cos(-7*2*pi*time+1.547)+0.065*cos(-6*2*pi*time+-2.042)+0.120*cos(-5*2*pi*time+2.845)+1.123*cos(-4*2*pi*time+-3.118)+1.499*cos(-3*2*pi*time+-0.645)+2.946*cos(-2*2*pi*time+-1.809)+2.618*cos(-1*2*pi*time+-0.990)+0.091*cos(0*2*pi*time+3.142)+2.618*cos(1*2*pi*time+0.990)+2.946*cos(2*2*pi*time+1.809)+1.499*cos(3*2*pi*time+0.645)+1.123*cos(4*2*pi*time+3.118)+0.120*cos(5*2*pi*time+-2.845)+0.065*cos(6*2*pi*time+2.042)+0.454*cos(7*2*pi*time+-1.547);
-    ay = +0.445*cos(-7*2*pi*time+0.788)+0.232*cos(-6*2*pi*time+2.704)+0.369*cos(-5*2*pi*time+-0.518)+0.939*cos(-4*2*pi*time+1.535)+2.294*cos(-3*2*pi*time+0.708)+1.415*cos(-2*2*pi*time+-0.376)+0.344*cos(-1*2*pi*time+-0.560)+0.067*cos(0*2*pi*time+0.000)+0.344*cos(1*2*pi*time+0.560)+1.415*cos(2*2*pi*time+0.376)+2.294*cos(3*2*pi*time+-0.708)+0.939*cos(4*2*pi*time+-1.535)+0.369*cos(5*2*pi*time+0.518)+0.232*cos(6*2*pi*time+-2.704)+0.445*cos(7*2*pi*time+-0.788);
-    theta_thigh = +0.054*cos(-7*2*pi*time+-2.190)+0.057*cos(-6*2*pi*time+1.729)+0.145*cos(-5*2*pi*time+-2.996)+0.115*cos(-4*2*pi*time+-0.063)+0.985*cos(-3*2*pi*time+2.836)+2.645*cos(-2*2*pi*time+1.940)+10.022*cos(-1*2*pi*time+2.095)+96.610*cos(0*2*pi*time+0.000)+10.022*cos(1*2*pi*time+-2.095)+2.645*cos(2*2*pi*time+-1.940)+0.985*cos(3*2*pi*time+-2.836)+0.115*cos(4*2*pi*time+0.063)+0.145*cos(5*2*pi*time+2.996)+0.057*cos(6*2*pi*time+-1.729)+0.054*cos(7*2*pi*time+2.190);
+    c = 0.0020;     % N*s/m
+    k_knee = 1000;        % N*m
+    % Coulomb friction
+    k_c = 2.4;    % N*m
+    k_n = 0.015;  % m
+
+    ax = knee_ax(t);
+    ay = knee_ay(t);
+    theta_thigh = thigh_theta(t);
     theta_thigh = 90 - theta_thigh;
     theta_thigh = theta_thigh*pi/180;
-    if (y(1)-theta_thigh)<0
-        dydt = [y(2);
-            (-c/I)*y(2) - (m*(g+ay)*Lcm/I) * sin(y(1)) - (m*ax*Lcm/I) * cos(y(1)) - k*(y(1)-theta_thigh)/I];
-    else
-        dydt = [y(2);
-            (-c/I)*y(2) - (m*(g+ay)*Lcm/I) * sin(y(1)) - (m*ax*Lcm/I) * cos(y(1))];
-    end
+
+    cd("Position Functions\");
+    knee_xr = knee_x(t);
+    knee_yr = knee_y(t);
+    cd("..");
+
+
+    % Ground Reaction Forces
+    knee = [knee_xr.' knee_yr.'];
+
+    % From ankle to sole can be calculated as
+    L_sole = 1700 * 0.285;
+    
+    sole_s = L_sole * exp(1i*y(1));
+    sole_x = imag(sole_s);
+    sole_y = real(sole_s);
+    sole_s = knee - [sole_x sole_y];
+    clear sole_x;clear sole_y;
+    
+    % From sole to heel
+    L_sole2heel = 45;      % mm
+    
+    heel_s = L_sole2heel * exp(1i*(y(1)+pi/2));
+    heel_x = imag(heel_s);
+    heel_y = real(heel_s);
+    heel_s = sole_s - [heel_x heel_y];
+    clear heel_x;clear heel_y;
+    
+    % From sole to toe
+    L_sole2toe = 135;      % mm
+    
+    toe_s = L_sole2toe * exp(1i*(y(1)-pi/2));
+    toe_x = imag(toe_s);
+    toe_y = real(toe_s);
+    toe_s = sole_s - [toe_x toe_y];
+    clear toe_x;clear toe_y;
+
+    ground_level = 30;
+
+    heel_dist = ground_level - heel_s(1,2);
+
+    toe_dist = ground_level - toe_s(1,2);
+
+    heel_vx = y(2) * (knee(1,2) - heel_s(1,2));
+
+    toe_vx = y(2) * (knee(1,2) - toe_s(1,2));
+
+
+
+
+    dydt = [y(2);
+            (-c/I)*y(2) ...
+            - (m*(g+ay)*Lcm/I) * sin(y(1)) ...
+            - (m*ax*Lcm/I) * cos(y(1)) ...
+            - k_c*sign(y(2))...
+            - k_n*sign(y(2))*m*(g*cos(y(1))+ (y(2)^2)*Lcm)...
+            - ((y(1)-theta_thigh)<0)*k_knee*(y(1)-theta_thigh)/I];
+
 end

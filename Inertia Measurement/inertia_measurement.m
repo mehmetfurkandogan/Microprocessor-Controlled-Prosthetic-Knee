@@ -33,14 +33,6 @@ n = 1;
 delta = (1/n) * log(max_t(2)/max_t(3)); % Logarithmic decrement
 xi = 1/sqrt(1+(2*pi/delta)^2);  % damping ratio
 
-% Defining constants
-m = 0.580;  % kg
-Lcm = 80*1e-3;  % m
-T = 0.925;      % s
-I = 0.0110947;  % kg*m^2
-g = 9.8067;     % m/s^2
-% calculating the damping coefficent
-c = xi*2*sqrt(m*g*Lcm*I);  % N*s/m
 
 f1=figure('name','Inertia Measurement','numberTitle','off');hold on;grid on;
 f1.Position = [144   247   560   420];

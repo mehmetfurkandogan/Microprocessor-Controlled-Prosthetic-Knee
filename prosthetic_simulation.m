@@ -62,19 +62,80 @@ sol = ode45(@eom,tspan,y0);
 theta_s = deval(sol,tr);
 theta_s = theta_s(1,:).';
 
-%% Calculating Position
+theta_thigh = thigh_theta(tr).'; % deg
+theta_thigh = 90 - theta_thigh;
+theta_thigh = theta_thigh*pi/180;   % rad
+
+
+%% Calculating Positions
 % Knee to Ankle lenght is 42.5 cm
-L = 425;    % m
+% Knee to c-leg bottom is 27 cm
+% From Knee joint to lower piston joint is 18 cm
+L_ankle = 425;    % mm
+L_cbot = 270;       % mm (Knee to c-leg bottom)
+L_plj = 180;   % mm (distance between Knee Joint and Piton Lower Joint)
 
 knee = [knee_xr.' knee_yr.'];
 
-ankle_s = L * exp(1i*theta_s);
+ankle_s = L_ankle * exp(1i*theta_s);
 ankle_x = imag(ankle_s);
 ankle_y = real(ankle_s);
 ankle_s = knee - [ankle_x ankle_y];
 clear ankle_x;clear ankle_y;
 
-% Healhy Movement
+cbot_s = L_cbot * exp(1i*theta_s);
+cbot_x = imag(cbot_s);
+cbot_y = real(cbot_s);
+cbot_s = knee - [cbot_x cbot_y];
+clear cbot_x;clear cbot_y;
+
+plj_s = L_plj * exp(1i*theta_s);
+plj_x = imag(plj_s);
+plj_y = real(plj_s);
+plj_s = knee - [plj_x plj_y];
+clear plj_x;clear plj_y;
+
+% From Knee to Upper Piston Joint
+L_k2puj = 23.5; % mm
+
+puj_s = L_k2puj * exp(1i*(theta_thigh+pi/2));
+puj_x = imag(puj_s);
+puj_y = real(puj_s);
+puj_s = knee - [puj_x puj_y];
+clear puj_x;clear puj_y;
+
+% From ankle to sole can be calculated as
+L_sole = 1700 * 0.285;
+
+sole_s = L_sole * exp(1i*theta_s);
+sole_x = imag(sole_s);
+sole_y = real(sole_s);
+sole_s = knee - [sole_x sole_y];
+clear sole_x;clear sole_y;
+
+% From sole to heel
+L_sole2heel = 45;      % mm
+
+heel_s = L_sole2heel * exp(1i*(theta_s+pi/2));
+heel_x = imag(heel_s);
+heel_y = real(heel_s);
+heel_s = sole_s - [heel_x heel_y];
+clear heel_x;clear heel_y;
+
+% From sole to toe
+L_sole2toe = 135;      % mm
+
+toe_s = L_sole2toe * exp(1i*(theta_s-pi/2));
+toe_x = imag(toe_s);
+toe_y = real(toe_s);
+toe_s = sole_s - [toe_x toe_y];
+clear toe_x;clear toe_y;
+
+
+
+
+
+%%  Healhy Movement Angles
 theta_h = leg_theta(tr);    % deg
 theta_h = 90- theta_h;
 theta_h = theta_h*pi/180;   % rad
@@ -100,6 +161,7 @@ color_rf = [166,206,227]/255;
 color_l = [51,160,44]/255;
 color_lf = [178,223,138]/255;
 color_p = [106,61,154]/255;
+color_piston = [202,178,214]/255;
 
 for i = 1:size(tr,2)
     % RIGHT
@@ -146,8 +208,26 @@ for i = 1:size(tr,2)
 
     % Prosthesis
     
-    p = plot([knee(i,1) ankle_s(i,1)],[knee(i,2) ankle_s(i,2)],'-o',...
+    p = plot([puj_s(i,1),knee(i,1) ankle_s(i,1)],...
+        [puj_s(i,2),knee(i,2) ankle_s(i,2)],'.-',...
         'LineWidth',1.5,'Color',color_p);
+    % piston
+    plot([puj_s(i,1),plj_s(i,1)],[puj_s(i,2),plj_s(i,2)],'-o',...
+        'LineWidth',1.5,'Color',color_piston);
+
+    plot(cbot_s(i,1),cbot_s(i,2),'.',...% C-leg bottom
+        'Color',color_p,'LineWidth',1.5); 
+    plot(sole_s(i,1),sole_s(i,2),'.',...% sole of the foot
+        'Color',color_p,'LineWidth',1.5);
+    plot(heel_s(i,1),heel_s(i,2),'.',...% heel
+        'Color',color_p,'LineWidth',1.5);
+    plot(toe_s(i,1),toe_s(i,2),'.',...% toe
+        'Color',color_p,'LineWidth',1.5);
+    plot([ankle_s(i,1),heel_s(i,1),toe_s(i,1),ankle_s(i,1)],...
+        [ankle_s(i,2),heel_s(i,2),toe_s(i,2),ankle_s(i,2)],...
+        'Color',color_p,'LineWidth',1.5);
+
+
     
     % Ground
     ground = 30;

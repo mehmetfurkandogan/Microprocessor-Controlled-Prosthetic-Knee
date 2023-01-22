@@ -6,11 +6,11 @@ clc;clear;close all;
 load('gait_cycle_data.mat')
 
 % Fourier Series
-knee_theta_f = fit_y(knee_theta,t,15,'knee_theta.txt'); % degree
-knee_omega_f = fit_y(knee_omega,t,15,'knee_omega.txt'); % degree
+knee_theta_f = fit_y(knee_theta,t,15,'knee_theta'); % degree
+knee_omega_f = fit_y(knee_omega,t,15,'knee_omega'); % degree
 
 % Piston Lenght Calculation
-alpha_e = 130;   % degree (full extension)
+alpha_e = 102;   % degree (full extension)
 a = 23.529; % mm (From knee joint to upper piston joint)
 b = 180.004; % mm (From knee joint to lower piston joint)
 alpha = alpha_e - knee_theta_f;
