@@ -6,7 +6,7 @@ clc;clear;close all;
 load('gait_cycle_data.mat','T');
 addpath('Fits')  
 %% CALCULATIONS
-Ti = 0.33;             % s
+Ti = 0;             % s
 tinc = 0.01; % time increment
 N = 1;  % Number of steps
 tr = Ti:tinc:Ti+N*T;            % time for right leg (actual time)
@@ -48,7 +48,7 @@ metat_yl = metat_y(tl);
 toe_xl = toe_x(tl);
 toe_yl = toe_y(tl);
 cd("..");
-%% SOLVING OEM
+%% SOLVING EOM
 % Initial Conditions
 theta0 = 90-leg_theta(Ti);   % deg
 theta0 = theta0*pi/180;     % rad

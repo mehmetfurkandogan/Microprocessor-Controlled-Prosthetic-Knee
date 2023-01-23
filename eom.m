@@ -11,6 +11,7 @@ function dydt = eom(t,y)
     k_c = 0.1419;    % N*m
     k_n = 8.8688e-04;  % m
 
+    
     ax = knee_ax(t);        % m/s^2
     ay = knee_ay(t);        % m/s^2
     theta_thigh = thigh_theta(t);       % deg
