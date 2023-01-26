@@ -3,7 +3,7 @@
 % 17.12.2022
 clc;clear;close all;
 %% IMPORT DATA
-load('gait_cycle_data.mat')
+load('gait_cycle_data.mat','knee_theta','knee_omega','t','T')
 
 % Fourier Series
 knee_theta_f = fit_y(knee_theta,t,15,'knee_theta'); % degree

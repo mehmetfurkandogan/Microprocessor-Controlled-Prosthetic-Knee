@@ -40,6 +40,8 @@ ylabel('Safety Factor'); xlabel('Strain gauge distance(mm)');
 L_sg = 72e-3;     % m
 [max_strain,min_SF,strain1,strain2] = strain_gauge(F_foot_ankle,M_foot_ankle,L_sg);
 
+strain = strain2 - strain1;
+
 figure();hold on;grid on;
 plot(t,strain1*1e6,'k-',t,strain2*1e6,'r-','linewidth',1.5);
 legend('1^{st} Strain Gauge','2^{nd} Strain Gauge');
