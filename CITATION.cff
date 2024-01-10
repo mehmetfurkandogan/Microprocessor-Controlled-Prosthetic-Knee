@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Şahin
+    given-names: Ali Fuat
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: Doğan
+    given-names: Mehmet Furkan
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: Uludoğan
+    given-names: Can
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: İlikmen
+    given-names: Egemen
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: Turkistani
+    given-names: Faysal
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: Evci
+    given-names: Furkan
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+  - family-names: İnci
+    given-names: Osman Berkin
+    affiliation: "Middle East Technical University, Department of Mechanical Engineering, Ankara, Turkey"
+title: "Microprocessor-Controlled-Prosthetic-Knee"
+version: 1.0.0
+date-released: 2023-01-30
+repository-code: "https://github.com/mehmetfurkandogan/Microprocessor-Controlled-Prosthetic-Knee"
