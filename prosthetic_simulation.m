@@ -6,7 +6,7 @@ clc;clear;close all;
 load('gait_cycle_data.mat','T');
 addpath('Fits')  
 %% CALCULATIONS
-Ti = 0;             % s
+Ti = 0.37;             % s
 tinc = 0.01; % time increment
 N = 1;  % Number of steps
 tr = Ti:tinc:Ti+N*T;            % time for right leg (actual time)
@@ -141,14 +141,68 @@ theta_h = leg_theta(tr);    % deg
 theta_h = 90- theta_h;
 theta_h = theta_h*pi/180;   % rad
 
+theta_knee = knee_theta(tr);    % deg
+theta_knee = theta_knee*pi/180;   % rad
+
+Fx = F_foot_ground_x(tr);
+Fy = F_foot_ground_y(tr);
+
 
 %% PLOTTING
 figure();hold on;grid on;
-plot(tr,theta_h*180/pi,'k-','DisplayName','Healthy');
-plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
-legend;
-xlim([Ti T+Ti]);
-xlabel('t (s)');ylabel('\theta_{leg} (\circ)');
+temp = (tr-tr(1)).*100/T;
+plot(temp,theta_knee*180/pi,'k-','DisplayName','Healthy','LineWidth',1.5);
+% plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
+plot([10 10],[-10 70],'k--');
+plot([30 30],[-10 70],'k--');
+plot([50 50],[-10 70],'k--');
+plot([60 60],[-10 70],'k--');
+plot([73 73],[-10 70],'k--');
+plot([87 87],[-10 70],'k--');
+
+% legend;
+% xlim([Ti T+Ti]);
+% xlim([Ti*100/T (T+Ti)*100/T]);
+xlim([0 100]);
+% ylim([-10 70]);
+xlabel('% gait cycle');ylabel('\theta_{knee} (\circ)');
+
+
+figure();hold on;grid on;
+temp = (tr-tr(1)).*100/T;
+plot(temp,Fx,'k-','DisplayName','Healthy','LineWidth',1.5);
+% plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
+plot([10 10],[-150 150],'k--');
+plot([30 30],[-150 150],'k--');
+plot([50 50],[-150 150],'k--');
+plot([60 60],[-150 150],'k--');
+plot([73 73],[-150 150],'k--');
+plot([87 87],[-150 150],'k--');
+
+% legend;
+% xlim([Ti T+Ti]);
+% xlim([Ti*100/T (T+Ti)*100/T]);
+xlim([0 100]);
+% ylim([-10 70]);
+xlabel('% gait cycle');ylabel('F_x (N)');
+
+figure();hold on;grid on;
+temp = (tr-tr(1)).*100/T;
+plot(temp,Fy,'k-','DisplayName','Healthy','LineWidth',1.5);
+% plot(tr,theta_s*180/pi,'r-','DisplayName','Prosthesis');
+plot([10 10],[-100 700],'k--');
+plot([30 30],[-100 700],'k--');
+plot([50 50],[-100 700],'k--');
+plot([60 60],[-100 700],'k--');
+plot([73 73],[-100 700],'k--');
+plot([87 87],[-100 700],'k--');
+
+% legend;
+% xlim([Ti T+Ti]);
+% xlim([Ti*100/T (T+Ti)*100/T]);
+xlim([0 100]);
+% ylim([-10 70]);
+xlabel('% gait cycle');ylabel('F_y (N)');
 %% ANIMATION
 f = figure('name','Gait Cycle','numberTitle','off');
 hold on;
