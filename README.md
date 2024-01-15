@@ -11,3 +11,6 @@ This repository includes design calculations of the control system of a semi-act
 * Furkan Evci
 * Mehmet Furkan Doğan
 * Osman Berkin İnci
+
+![](Animations/walking_extended.gif)
+![](Animations/walking_data.gif)
