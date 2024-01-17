@@ -23,6 +23,7 @@ metat_yd = metat_y;clear metat_y;
 toe_xd = toe_x;clear toe_x;
 toe_yd = toe_y;clear toe_y;
 
+ground_offset = 38; % mm
 %% CALCULATIONS
 tinc = 0.01; % time increment
 N = 7;  % Number of steps
@@ -68,13 +69,17 @@ cd("..");
 f1 = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-xlim([0 3000]);ylim([0 1200]);
+xl1 = [0 3000];
+yl1 = [0 1200];
+xlim(xl1);ylim(yl1);
 f1.Position = [2         476        1361         208];
 
 f2 = figure('name','Gait Cycle','numberTitle','off');
 hold on;
 set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-xlim([0 10000]);ylim([0 1200]);
+xl2 = [0 10000];
+yl2 = [0 1200];
+xlim(xl2);ylim(yl2);
 f2.Position = [ 2          32        1364         358];
 %% ANIMATION
 % INITIALIZING THE VIDEO
@@ -97,12 +102,19 @@ for i = 1:size(t,1)
     Foot_yr = [ankle_yd(i),heel_yd(i),metat_yd(i),ankle_yd(i)];
     Foot2_xr = [metat_xd(i),toe_xd(i)];
     Foot2_yr = [metat_yd(i),toe_yd(i)];
-    plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,'linewidth',1.5);
+    foot = polyshape(Foot_xr,Foot_yr);
+    plot(foot,LineWidth=1.5);
+    hold on;
+    plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,Leg_xr,Leg_yr,...
+        Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,'linewidth',1.5,'Color','k');
+    ground = polyshape([xl1(1)-100 xl1(2)+100 xl1(2)+100 xl1(1)-100],...
+                        [ground_offset,ground_offset,yl1(1)-100,yl1(1)-100]);
+    plot(ground,LineWidth=1,FaceColor="#77AC30");
     F1(i) = getframe(gcf);
     writeVideo(v1,F1(i));
     clf(f1)
     set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-    xlim([0 3000]);ylim([0 1200]);
+    xlim(xl1);ylim(yl1);
 end
 figure(f2);
 for i = 1:size(tr,2)
@@ -117,6 +129,11 @@ for i = 1:size(tr,2)
     Foot_yr = [ankle_yr(i),heel_yr(i),metat_yr(i),ankle_yr(i)];
     Foot2_xr = [metat_xr(i),toe_xr(i)];
     Foot2_yr = [metat_yr(i),toe_yr(i)];
+    foot_r = polyshape(Foot_xr,Foot_yr);
+    plot(foot_r,LineWidth=1.5);
+    hold on;
+    plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,Leg_xr,Leg_yr,Foot_xr,...
+        Foot_yr,Foot2_xr,Foot2_yr,'linewidth',1.5,'Color','k');
     % LEFT
     deltax = rib_xr(i) - rib_xl(i);
     HAT1_2_xl = [rib_xl(i)+deltax,hip_xl(i)+deltax];
@@ -129,14 +146,25 @@ for i = 1:size(tr,2)
     Foot_yl = [ankle_yl(i),heel_yl(i),metat_yl(i),ankle_yl(i)];
     Foot2_xl = [metat_xl(i)+deltax,toe_xl(i)+deltax];
     Foot2_yl = [metat_yl(i),toe_yl(i)];
-    plot(HAT1_2_xr,HAT1_2_yr,Thigh_xr,Thigh_yr,Leg_xr,Leg_yr,Foot_xr,Foot_yr,Foot2_xr,Foot2_yr,'linewidth',1.5);
-    hold on;
-    plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,Foot_yl,Foot2_xl,Foot2_yl,'linewidth',1.5);
+    foot_l = polyshape(Foot_xl,Foot_yl);
+    plot(foot_l,LineWidth=1.5);
+    plot(HAT1_2_xl,HAT1_2_yl,Thigh_xl,Thigh_yl,Leg_xl,Leg_yl,Foot_xl,...
+        Foot_yl,Foot2_xl,Foot2_yl,'linewidth',1.5,'Color','k');
+    % HAT 1/2
+    HAT1_2_x = [hip_xr(i) hip_xl(i)+deltax rib_xl(i)+deltax];
+    HAT1_2_y = [hip_yr(i) hip_yl(i) rib_yl(i)];
+    HAT1_2 = polyshape(HAT1_2_x,HAT1_2_y);
+    plot(HAT1_2,'linewidth',1.5,FaceColor='black');
+    % ground
+    ground = polyshape([xl2(1)-100 xl2(2)+100 xl2(2)+100 xl2(1)-100],...
+                        [ground_offset,ground_offset,yl2(1)-100,yl2(1)-100]);
+    plot(ground,LineWidth=1,FaceColor="#77AC30");
+    % save frame
     F2(i)  = getframe(gcf);
     writeVideo(v2,F2(i));
     clf(f2)
     set(gca,'NextPlot','replacechildren','DataAspectRatio',[1 1 1]);
-    xlim([0 10000]);ylim([0 1200]);
+    xlim(xl2);ylim(yl2);
 end
 figure(f1);
 movie(F1,1,1/0.0145);
